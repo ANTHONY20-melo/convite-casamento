@@ -194,7 +194,6 @@ const CONFIG = {
   function enviarPlanilha(d, quandoPronto) {
     // Apps Script precisa de POST "simples" (text/plain) para evitar CORS preflight.
     // Em modo "no-cors" a resposta é opaca: resolve = enviado com sucesso.
-    fbOk("Enviando sua presença…");
     fetch(CONFIG.linkPlanilha, {
       method: "POST",
       mode: "no-cors",
@@ -202,9 +201,20 @@ const CONFIG = {
       body: JSON.stringify(d),
     })
       .then(() => quandoPronto())
-      .catch(() =>
-        fbErro("Não conseguimos enviar. Confira a URL (linkPlanilha) ou sua conexão.")
-      );
+      .catch(() => {
+        // endpoint indisponível (404/offline): recorre aos fallbacks configurados
+        if (CONFIG.whatsappRsvp) {
+          fbOk("Enviando pelo WhatsApp…");
+          enviarWhatsapp(d);
+          return quandoPronto();
+        }
+        if (CONFIG.emailRsvp) {
+          fbOk("Abrindo seu e-mail…");
+          enviarEmail(d);
+          return quandoPronto();
+        }
+        fbErro("Não conseguimos enviar. Confira linkPlanilha/whatsappRsvp/emailRsvp na CONFIG.");
+      });
   }
 
   function enviarWhatsapp(d) {
