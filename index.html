@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convite de Casamento — Nome do Noivo &amp; Nome da Noiva</title>
+  <meta name="description" content="Você está convidado para celebrar nosso casamento. Vire as páginas e confirme sua presença." />
+  <link
+    rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🤍</text></svg>"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Parisienne&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="estante">
+    <div class="livro" id="livro" aria-live="polite">
+      <!-- ============ PÁGINA 1 — CAPA ============ -->
+      <section
+        class="pagina pagina--capa ativa"
+        data-pagina="0"
+        aria-label="Capa do convite"
+      >
+        <div class="pagina__inner">
+          <p class="meia-coluna eyebrow">Com a bênção de Deus<br />e de nossos pais</p>
+          <p class="lead">Temos a honra de convidar você para o casamento de</p>
+          <h1 class="nomes" data-config="nomes">Nome do Noivo &amp; Nome da Noiva</h1>
+          <div class="ornament" aria-hidden="true">
+            <span class="ornament__line"></span>
+            <span class="ornament__diamond"></span>
+            <span class="ornament__line"></span>
+          </div>
+          <p class="data-destaque" data-config="dataExtenso">
+            <strong>Domingo, 15 de agosto de 2027</strong>
+            <span>às 19h</span>
+          </p>
+          <button type="button" class="button button--solid livro-btn-abrir" data-virar="1">
+            Abrir o convite 🤍
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ PÁGINA 2 — NOSSA HISTÓRIA + CONTAGEM ============ -->
+      <section class="pagina" data-pagina="1" aria-label="Nossa história">
+        <div class="pagina__inner">
+          <p class="kicker">Uma vez por dia</p>
+          <h2 class="titulo-secao">Nossa história</h2>
+          <p class="texto-pagina" data-config="historia">
+            Foi numa tarde comum que tudo começou: um encontro, uma conversa que
+            não queria terminar e, aos poucos, a certeza de que éramos feitos um
+            para o outro. Desde então, cada dia juntos virou memória — e agora
+            queremos começar a nossa maior aventura, cercados de quem amamos.
+          </p>
+          <p class="lead">Faltam</p>
+          <div class="contagem" role="timer" aria-label="Contagem regressiva">
+            <div class="contagem__box">
+              <span class="contagem__num" id="cd-dias">—</span>
+              <span class="contagem__leg">dias</span>
+            </div>
+            <div class="contagem__box">
+              <span class="contagem__num" id="cd-horas">—</span>
+              <span class="contagem__leg">horas</span>
+            </div>
+            <div class="contagem__box">
+              <span class="contagem__num" id="cd-minutos">—</span>
+              <span class="contagem__leg">minutos</span>
+            </div>
+            <div class="contagem__box">
+              <span class="contagem__num" id="cd-segundos">—</span>
+              <span class="contagem__leg">segundos</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PÁGINA 3 — CERIMÔNIA & RECEPÇÃO ============ -->
+      <section class="pagina" data-pagina="2" aria-label="Cerimônia e recepção">
+        <div class="pagina__inner">
+          <p class="kicker">Nossa união</p>
+          <h2 class="titulo-secao">Cerimônia &amp; Recepção</h2>
+
+          <article class="bloco">
+            <h3>Cerimônia</h3>
+            <div class="ornament ornament--small" aria-hidden="true">
+              <span class="ornament__line"></span>
+              <span class="ornament__diamond"></span>
+              <span class="ornament__line"></span>
+            </div>
+            <p class="hora" data-config="horaCerimonia">19h00</p>
+            <p class="local" data-config="localCerimonia">Igreja Matriz de São José</p>
+            <p class="endereco" data-config="enderecoCerimonia">Praça da Matriz, 123 — Centro</p>
+            <a
+              class="button button--ghost"
+              data-config-link="linkCerimonia"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Ver no mapa</a
+            >
+          </article>
+
+          <article class="bloco">
+            <h3>Recepção</h3>
+            <div class="ornament ornament--small" aria-hidden="true">
+              <span class="ornament__line"></span>
+              <span class="ornament__diamond"></span>
+              <span class="ornament__line"></span>
+            </div>
+            <p class="hora">20h30</p>
+            <p class="local" data-config="localRecepcao">Salão Nobre Vista Verde</p>
+            <p class="endereco" data-config="enderecoRecepcao">Avenida das Flores, 456 — Jardins</p>
+            <a
+              class="button button--ghost"
+              data-config-link="linkRecepcao"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Ver no mapa</a
+            >
+          </article>
+
+          <p class="nota" data-config="notaPresenca">
+            Sua presença é nosso presente maior. Conte com você!
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ PÁGINA 4 — DRESS CODE & PRESENTES ============ -->
+      <section class="pagina" data-pagina="3" aria-label="Dress code e presentes">
+        <div class="pagina__inner">
+          <article class="bloco">
+            <h2 class="titulo-bloco">Dress Code</h2>
+            <p class="destaque-gold">Traje esporte fino</p>
+            <p class="texto-pagina">
+              Para acompanhar bem o clima da festa, pedimos apenas que evitem tons
+              de <em>branco</em>, <em>off-white</em> e <em>dourado</em> — reservados
+              para os noivos.
+            </p>
+          </article>
+
+          <article class="bloco">
+            <h2 class="titulo-bloco">Presentes</h2>
+            <p class="destaque-gold">Sugestão de lista</p>
+            <p class="texto-pagina">
+              Pensamos em tudo com carinho, mas se quiser nos presentear, temos
+              uma lista disponível.
+            </p>
+            <a
+              class="button button--ghost"
+              data-config-link="linkListaPresentes"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Lista de presentes</a
+            >
+          </article>
+
+          <article class="bloco">
+            <h2 class="titulo-bloco">Confirmar presença</h2>
+            <p class="texto-pagina" data-config="prazoRsvp">
+              Por favor, confirme até <strong>15 de julho de 2027</strong>.
+            </p>
+            <button type="button" class="button button--solid button--wide" data-virar="4">
+              Confirmar presença 🤍
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ PÁGINA 5 — RSVP (LISTA DE CONFIRMAÇÃO) ============ -->
+      <section class="pagina" data-pagina="4" aria-label="Confirmação de presença">
+        <div class="pagina__inner">
+          <p class="kicker">Assine nossa lista</p>
+          <h2 class="titulo-secao">Confirmar presença</h2>
+
+          <form class="rsvp" id="form-rsvp" novalidate>
+            <label class="rsvp__campo">
+              <span>Seu nome completo</span>
+              <input type="text" id="rsvp-nome" name="nome" required autocomplete="name" />
+            </label>
+
+            <label class="rsvp__campo">
+              <span>Presença</span>
+              <select id="rsvp-presenca" name="presenca" required>
+                <option value="Sim">Sim, estarei presente 🎉</option>
+                <option value="Não">Não poderei comparecer</option>
+              </select>
+            </label>
+
+            <label class="rsvp__campo">
+              <span>Acompanhantes (quantidade)</span>
+              <input
+                type="number"
+                id="rsvp-acompanhantes"
+                name="acompanhantes"
+                min="0"
+                max="10"
+                value="0"
+              />
+            </label>
+
+            <label class="rsvp__campo">
+              <span>Recado para os noivos (opcional)</span>
+              <textarea id="rsvp-recado" name="recado" rows="3"></textarea>
+            </label>
+
+            <button type="submit" class="button button--solid button--wide">
+              Assinar e confirmar 🤍
+            </button>
+            <p class="rsvp__feedback" id="rsvp-feedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ NAVEGAÇÃO DO LIVRO ============ -->
+    <nav class="livro__nav" aria-label="Navegação entre as páginas do convite">
+      <button
+        type="button"
+        class="livro__seta"
+        id="btn-anterior"
+        aria-label="Página anterior"
+        disabled
+      >
+        ‹
+      </button>
+      <span class="livro__paginacao" id="paginacao">Página 1 de 5</span>
+      <button type="button" class="livro__seta" id="btn-proximo" aria-label="Próxima página">
+        ›
+      </button>
+    </nav>
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

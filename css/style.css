@@ -1,0 +1,447 @@
+/* ============================================================
+   CONVITE DE CASAMENTO — Livro
+   Paleta: marfim, dourado, grafite. Cormorant Garamond + Parisienne.
+   Páginas com virada 3D (transform-origin à esquerda).
+   ============================================================ */
+
+:root {
+  --cor-papel: #efe9dc;
+  --cor-pagina: #fbf8f1;
+  --cor-pagina-2: #fffdf8;
+  --cor-dourado: #b08d3e;
+  --cor-dourado-claro: #d9c48d;
+  --cor-tinta: #2e2a26;
+  --cor-tinta-suave: #6e6558;
+  --cor-verde: #4a5d4e;
+
+  --fonte-serif: "Cormorant Garamond", Georgia, serif;
+  --fonte-manuscrita: "Parisienne", cursive;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(176, 141, 62, 0.12), transparent 60%),
+    var(--cor-papel);
+  color: var(--cor-tinta);
+  font-family: var(--fonte-serif);
+  font-size: clamp(1rem, 1.4vw, 1.12rem);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding: clamp(0.75rem, 3vh, 2rem);
+}
+
+/* ---------- shared ---------- */
+
+.eyebrow,
+.kicker {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.22em;
+  color: var(--cor-tinta-suave);
+}
+
+.eyebrow {
+  color: var(--cor-tinta-suave);
+  margin-bottom: 1.5rem;
+}
+
+.kicker {
+  color: var(--cor-dourado);
+  margin-bottom: 0.25rem;
+}
+
+.lead {
+  color: var(--cor-tinta-suave);
+}
+
+.nomes {
+  font-family: var(--fonte-manuscrita);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 7vw, 3.6rem);
+  line-height: 1.2;
+  margin: 0.5rem 0 1rem;
+}
+
+.titulo-secao {
+  font-size: clamp(1.7rem, 4vw, 2.2rem);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.9rem;
+}
+
+.titulo-bloco {
+  font-weight: 600;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.16em;
+  font-size: 1.3rem;
+  margin-bottom: 0.2rem;
+}
+
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  max-width: 12rem;
+  margin: 0 auto;
+}
+
+.ornament__line {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, var(--cor-dourado));
+}
+
+.ornament__line:last-child {
+  background: linear-gradient(90deg, var(--cor-dourado), transparent);
+}
+
+.ornament__diamond {
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  border: 1px solid var(--cor-dourado);
+}
+
+.ornament--small {
+  max-width: 9rem;
+  margin-bottom: 0.9rem;
+}
+
+.nota {
+  margin-top: auto;
+  font-style: italic;
+  color: var(--cor-tinta-suave);
+  font-size: 0.95rem;
+}
+
+/* ---------- botões ---------- */
+
+.button {
+  font-family: var(--fonte-serif);
+  font-size: 0.95rem;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  padding: 0.6rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  background: transparent;
+  border: none;
+}
+
+.button--ghost {
+  color: var(--cor-tinta);
+  border: 1px solid var(--cor-dourado);
+  display: inline-block;
+}
+
+.button--ghost:hover {
+  background: var(--cor-dourado);
+  color: var(--cor-pagina-2);
+}
+
+.button--solid {
+  color: var(--cor-pagina-2);
+  background: var(--cor-verde);
+  border: 1px solid var(--cor-verde);
+  padding-block: 0.75rem;
+}
+
+.button--solid:hover {
+  background: #3c4c40;
+}
+
+.button--wide {
+  width: 100%;
+  font-size: 1.05rem;
+}
+
+/* ---------- estante + livro ---------- */
+
+.estante {
+  display: grid;
+  gap: 0.8rem;
+  width: min(34rem, 100%);
+}
+
+.livro {
+  position: relative;
+  height: min(76svh, 640px);
+  min-height: 30rem;
+  perspective: 1800px;
+  border: 1px solid var(--cor-dourado-claro);
+  outline: 1px solid var(--cor-dourado-claro);
+  outline-offset: 5px;
+  border-radius: 3px;
+  box-shadow: 0 30px 60px -28px rgba(46, 42, 38, 0.45);
+  overflow: hidden;
+}
+
+.pagina {
+  position: absolute;
+  inset: 0;
+  background: var(--cor-pagina);
+  padding: clamp(1.4rem, 4vh, 2.4rem) clamp(1.2rem, 4vw, 2.2rem);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.85s cubic-bezier(0.4, 0.001, 0.3, 1);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  visibility: hidden;
+  display: flex;
+}
+
+.pagina.ativa {
+  transform: rotateY(0);
+  visibility: visible;
+  z-index: 2;
+}
+
+.pagina.virada {
+  transform: rotateY(-180deg);
+  visibility: visible;
+  z-index: 1;
+}
+
+/* sombras de virada */
+.pagina.ativa::after,
+.pagina.virada::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pagina.ativa::after {
+  background: linear-gradient(90deg, transparent 96%, rgba(46, 42, 38, 0.08));
+}
+
+.pagina.virada::after {
+  background: linear-gradient(90deg, rgba(46, 42, 38, 0.14), transparent 30%);
+}
+
+.pagina__inner {
+  margin: auto;
+  width: 100%;
+  max-width: 26rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pagina__inner > .nota {
+  margin-top: 0.75rem;
+}
+
+/* capa */
+.pagina--capa {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(176, 141, 62, 0.1), transparent 65%),
+    var(--cor-pagina);
+}
+
+.pagina--capa .pagina__inner {
+  gap: 1rem;
+}
+
+.data-destaque strong {
+  display: block;
+  font-weight: 600;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.14em;
+  font-size: 1.25rem;
+}
+
+.data-destaque span {
+  display: block;
+  color: var(--cor-tinta-suave);
+}
+
+/* blocos internos (cerimônia, recepção, dress code…) */
+.bloco {
+  padding: 1rem 0.9rem;
+  border: 1px solid var(--cor-dourado-claro);
+  background: var(--cor-pagina-2);
+}
+
+.bloco h3 {
+  font-weight: 600;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.18em;
+  font-size: 1.15rem;
+}
+
+.hora {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--cor-dourado);
+  margin-bottom: 0.25rem;
+}
+
+.local {
+  font-size: 1.1rem;
+}
+
+.endereco {
+  color: var(--cor-tinta-suave);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.texto-pagina {
+  color: var(--cor-tinta);
+  font-size: 0.98rem;
+}
+
+.destaque-gold {
+  color: var(--cor-dourado);
+  font-weight: 600;
+}
+
+/* contagem regressiva */
+.contagem {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.25rem;
+}
+
+.contagem__box {
+  padding: 0.7rem 0.3rem;
+  background: var(--cor-pagina-2);
+  border: 1px solid var(--cor-dourado-claro);
+}
+
+.contagem__num {
+  display: block;
+  font-size: clamp(1.2rem, 3.6vw, 1.8rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--cor-verde);
+}
+
+.contagem__leg {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.18em;
+  color: var(--cor-tinta-suave);
+}
+
+/* ---------- RSVP ---------- */
+
+.rsvp {
+  display: grid;
+  gap: 0.85rem;
+  text-align: left;
+}
+
+.rsvp__campo {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.rsvp__campo span {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.14em;
+  color: var(--cor-tinta-suave);
+}
+
+.rsvp__campo input,
+.rsvp__campo select,
+.rsvp__campo textarea {
+  font-family: var(--fonte-serif);
+  font-size: 1rem;
+  color: var(--cor-tinta);
+  background: var(--cor-pagina-2);
+  border: 1px solid var(--cor-dourado-claro);
+  padding: 0.6rem 0.8rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.rsvp__campo input:focus,
+.rsvp__campo select:focus,
+.rsvp__campo textarea:focus {
+  border-color: var(--cor-dourado);
+}
+
+.rsvp__campo input:user-invalid,
+.rsvp__campo select:user-invalid {
+  border-color: #b8423c;
+}
+
+.rsvp__feedback {
+  text-align: center;
+  min-height: 1.5em;
+  color: var(--cor-verde);
+  font-style: italic;
+}
+
+.rsvp__feedback--erro {
+  color: #b8423c;
+}
+
+/* ---------- navegação do livro ---------- */
+
+.livro__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.livro__seta {
+  font-family: var(--fonte-serif);
+  font-size: 1.6rem;
+  line-height: 1;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid var(--cor-dourado);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cor-tinta);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.livro__seta:hover:not(:disabled) {
+  background: var(--cor-dourado);
+  color: var(--cor-pagina-2);
+}
+
+.livro__seta:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.livro__paginacao {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.2em;
+  color: var(--cor-tinta-suave);
+}
+
+/* ---------- foco visível (a11y) ---------- */
+
+.livro__seta:focus-visible,
+.button:focus-visible,
+.livro-btn-abrir:focus-visible {
+  outline: 2px solid var(--cor-verde);
+  outline-offset: 2px;
+}
+
+/* ---------- movimento reduzido ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .pagina {
+    transition: none;
+  }
+}
