@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Convite de Casamento — Nome do Noivo &amp; Nome da Noiva</title>
+  <title>Convite de Casamento — Nome do Noivo & Nome da Noiva</title>
   <meta name="description" content="Você está convidado para celebrar nosso casamento. Vire as páginas e confirme sua presença." />
   <link
     rel="icon"
@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Parisienne&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=PT+Serif&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="css/style.css" />
@@ -20,27 +20,28 @@
 <body>
   <main class="estante">
     <div class="livro" id="livro" aria-live="polite">
-      <!-- ============ PÁGINA 1 — CAPA ============ -->
+      <!-- ============ PÁGINA 1 — CAPA / INTRODUCTION ============ -->
       <section
         class="pagina pagina--capa ativa"
         data-pagina="0"
         aria-label="Capa do convite"
       >
         <div class="pagina__inner">
-          <p class="meia-coluna eyebrow">Com a bênção de Deus<br />e de nossos pais</p>
-          <p class="lead">Temos a honra de convidar você para o casamento de</p>
-          <h1 class="nomes" data-config="nomes">Nome do Noivo &amp; Nome da Noiva</h1>
-          <div class="ornament" aria-hidden="true">
-            <span class="ornament__line"></span>
-            <span class="ornament__diamond"></span>
-            <span class="ornament__line"></span>
+          <div class="capa__container">
+            <img 
+              src="https://images.unsplash.com/photo-1519446229885-cee3a8405f3e?w=800&h=1000&fit=crop&face=auto" 
+              alt="Fotos dos noivos"
+              class="capa__foto"
+              loading="lazy"
+            />
+            <div class="capa__overlay">
+              <p class="meia-coluna eyebrow">Com a bênção de Deus<br />e de nossos pais</p>
+              <p class="lead">Temos a honra de convidar você para o casamento de</p>
+              <h1 class="nomes" data-config="nomes">Nome do Noivo & Nome da Noiva</h1>
+            </div>
           </div>
-          <p class="data-destaque" data-config="dataExtenso">
-            <strong>Domingo, 15 de agosto de 2027</strong>
-            <span>às 19h</span>
-          </p>
-          <button type="button" class="button button--solid livro-btn-abrir" data-virar="1">
-            Abrir o convite 🤍
+          <button type="button" class="button button--solid capa-btn-abrir" data-virar="1">
+            Iniciar leitura 🤍
           </button>
         </div>
       </section>
@@ -54,7 +55,7 @@
             Foi numa tarde comum que tudo começou: um encontro, uma conversa que
             não queria terminar e, aos poucos, a certeza de que éramos feitos um
             para o outro. Desde então, cada dia juntos virou memória — e agora
-            queremos começar a nossa maior aventura, cercados de quem amamos.
+            queremos começar nossa maior aventura, cercados de quem amamos.
           </p>
           <p class="lead">Faltam</p>
           <div class="contagem" role="timer" aria-label="Contagem regressiva">
@@ -82,7 +83,7 @@
       <section class="pagina" data-pagina="2" aria-label="Cerimônia e recepção">
         <div class="pagina__inner">
           <p class="kicker">Nossa união</p>
-          <h2 class="titulo-secao">Cerimônia &amp; Recepção</h2>
+          <h2 class="titulo-secao">Cerimônia & Recepção</h2>
 
           <article class="bloco">
             <h3>Cerimônia</h3>

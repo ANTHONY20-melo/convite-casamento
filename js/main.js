@@ -1,5 +1,5 @@
 /* ============================================================
-   CONVITE DE CASAMENTO — Livro
+   CONVITE DE CASAMENTO — Livro com virada de página
    ────────────────────────────────────────────────────────────
    EDITE APENAS O BLOCO "CONFIG" ABAIXO.
    ============================================================ */
@@ -13,7 +13,7 @@ const CONFIG = {
 
   // --- HISTÓRIA (página 2) ---------------------------------------------------
   historia:
-    "Foi numa tarde comum que tudo começou: um encontro, uma conversa que não queria terminar e, aos poucos, a certeza de que éramos feitos um para o outro. Desde então, cada dia juntos virou memória — e agora queremos começar a nossa maior aventura, cercados de quem amamos.",
+    "Foi numa tarde comum que tudo começou: um encontro, uma conversa que não queria terminar e, aos poucos, a certeza de que éramos feitos um para o outro. Desde então, cada dia juntos virou memória — e agora queremos começar nossa maior aventura, cercados de quem amamos.",
 
   // --- CERIMÔNIA E RECEPÇÃO ------------------------------------------------
   localCerimonia: "Igreja Matriz de São José",
@@ -31,27 +31,34 @@ const CONFIG = {
   prazoRsvpTexto: "15 de julho de 2027",
 
   // --- PLANILHA DE CONFIRMADOS (formato Excel/Sheets) -----------------------
-  // RODANDO LOCAL (node server.js): deixe "/rsvp" — confirmações vão direto
-  //   para planilha-confirmados.xlsx na raiz do projeto.
-  // PUBLICADO ONLINE (Vercel/GitHub Pages): substitua pela URL do Apps Script,
-  //   seguindo o passo a passo em google-apps-script/Code.gs.
-  linkPlanilha: "/rsvp",
+  // 1) Crie uma planilha no Google Sheets;
+  // 2) Extensões → Apps Script → cole o conteúdo de google-apps-script/Code.gs;
+  // 3) Implantar → Nova implantação → Aplicativo da Web → copie a URL;
+  // 4) Cole a URL aqui. Cada confirmação vira uma linha na planilha
+  //    (Arquivo → Baixar → Excel .xlsx a qualquer momento).
+  linkPlanilha: "", // ex.: "https://script.google.com/macros/s/AKfy.../exec"
 
   // --- FALLBACKS caso a planilha não esteja configurada ----------------------
-  // Escolha UM (o WhatsApp tem prioridade se preenchido):
+  // Escolha UM dos dois:
   emailRsvp: "noivos@email.com",
-  whatsappRsvp: "", // formato: 55 + DDD + número, ex.: "5511999999999"
+  whatsappRsvp: "", // formato: 5511999999999 (DDD + número)
+
+  // --- FALLBACK DE NAVEGAÇÃO (online) ----------------------------------------
+  // Se linkPlanilha não estiver configurado, o RSVP usa estes fallbacks:
+  // Prioridade: WhatsApp (se preenchido) → E-mail
+  prazoRsvpTexto: "15 de julho de 2027",
 };
 
 /* ============================================================
-   ABAIXO: navegação do livro, contagem e RSVP. Sem ajustes.
+   A partir daqui, o código aplica a CONFIG e liga as dinâmicas.
+   Em geral NÃO é necessário mexer abaixo.
    ============================================================ */
 
 (function () {
   "use strict";
 
   // ---------- 1. Aplicar CONFIG no HTML ------------------------------------
-  const el = (attr) => document.querySelector(`[data-config="${attr}"]`);
+  const el = (dataAttr) => document.querySelector(`[data-config="${dataAttr}"]`);
 
   const textosSimples = {
     nomes: CONFIG.nomes,
@@ -86,22 +93,27 @@ const CONFIG = {
 
   document.title = `Convite de Casamento — ${CONFIG.nomes}`;
 
-  // ---------- 2. Navegação do livro ----------------------------------------
+  // ---------- 2. Inicialização do livro -----------------------------------
   const paginas = [...document.querySelectorAll(".pagina")];
   const total = paginas.length;
   const btnAnt = document.getElementById("btn-anterior");
   const btnProx = document.getElementById("btn-proximo");
   const rotulo = document.getElementById("paginacao");
-  let atual = 0;
+  let atual = 0; // índice da página ativa (0 = capa)
+
+  // Elementos de navegação do header (capa)
+  const btnAbrir = document.querySelector('.pagina--capa .livro-btn-abrir');
 
   function goto(indice) {
     indice = Math.max(0, Math.min(total - 1, indice));
     if (indice === atual) return;
 
     const avancando = indice > atual;
+
+    // 1. Adiciona classe "virando" na página atual (anima de rotação)
     for (let i = 0; i < total; i++) {
       const pg = paginas[i];
-      pg.classList.remove("ativa", "virada");
+      pg.classList.remove("ativa", "virada", "voltar");
       if (avancando) {
         if (i < indice) pg.classList.add("virada");
         if (i === indice) pg.classList.add("ativa");
@@ -110,6 +122,19 @@ const CONFIG = {
         if (i === indice) pg.classList.add("ativa");
       }
     }
+
+    // Pequeno delay para a animação completar, então remove "virada" da página anterior
+    setTimeout(() => {
+      // Após a virada, a página que saiu fica "virada" para trás (rotateY(-180)),
+      // mas como só uma página pode ser "ativa", removemos a classe para evitar
+      // conflito visual. A página que entrou ganhou "ativa" e fica com rotateY(0).
+      if (avancando && atual < indice) {
+        paginas[atual].classList.remove("virada");
+      } else if (!avancando && atual > indice) {
+        paginas[atual].classList.remove("virada");
+      }
+    }, 900);
+
     atual = indice;
     syncNav();
   }
@@ -192,33 +217,47 @@ const CONFIG = {
   }
 
   function enviarPlanilha(d, quandoPronto) {
-    // Apps Script precisa de POST "simples" (text/plain) para evitar CORS preflight.
-    // Em modo "no-cors" a resposta é opaca: resolve = enviado com sucesso.
-    fetch(CONFIG.linkPlanilha, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(d),
-    })
-      .then(() => quandoPronto())
-      .catch(() => {
-        // endpoint indisponível (404/offline): recorre aos fallbacks configurados
-        if (CONFIG.whatsappRsvp) {
-          fbOk("Enviando pelo WhatsApp…");
-          enviarWhatsapp(d);
-          return quandoPronto();
-        }
-        if (CONFIG.emailRsvp) {
-          fbOk("Abrindo seu e-mail…");
-          enviarEmail(d);
-          return quandoPronto();
-        }
-        fbErro("Não conseguimos enviar. Confira linkPlanilha/whatsappRsvp/emailRsvp na CONFIG.");
-      });
+    // Se houver link da planilha, tenta enviar por Apps Script (no-cors)
+    if (CONFIG.linkPlanilha) {
+      fbOk("Enviando sua presença…");
+      fetch(CONFIG.linkPlanilha, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(d),
+      })
+        .then(() => quandoPronto())
+        .catch(() =>
+          // fallback: tenta WhatsApp ou e-mail
+          (CONFIG.whatsappRsvp
+            ? () => {
+                enviarWhatsapp(d);
+                quandoPronto();
+              }
+            : CONFIG.emailRsvp
+            ? () => {
+                enviarEmail(d);
+                quandoPronto();
+              }
+            : () => {
+                fbErro("Não conseguimos enviar. Confira o link da planilha ou configure whatsappRsvp/emailRsvp.");
+              })()
+        );
+    } else if (CONFIG.whatsappRsvp) {
+      enviarWhatsapp(d);
+      quandoPronto();
+    } else if (CONFIG.emailRsvp) {
+      enviarEmail(d);
+      quandoPronto();
+    } else {
+      fbErro("Nenhum destino configurado (linkPlanilha, whatsappRsvp ou emailRsvp).");
+    }
   }
 
   function enviarWhatsapp(d) {
-    const t = encodeURIComponent(textoConfirmacao(d));
+    const t = encodeURIComponent(
+      ["Olá! Confirmação para o casamento de ", CONFIG.nomes, ":", "\nNome: ", d.nome, "\nPresença: ", d.presenca, d.presenca === "Sim" ? `\nAcompanhantes: ${d.acompanhantes}` : "", d.recado ? `\nRecado: ${d.recado}` : ""].join("")
+    );
     window.open(`https://wa.me/${CONFIG.whatsappRsvp}?text=${t}`, "_blank", "noopener");
   }
 
@@ -246,7 +285,7 @@ const CONFIG = {
       fbOk(
         d.presenca === "Sim"
           ? `Obrigado, ${d.nome.split(" ")[0]}! Sua presença já está na lista. 🤍`
-          : `Obrigado, ${d.nome.split(" ")[0]}, por nos avisar. Sentiremos sua falta.`
+          : `Obrigado, ${d.nome.split(" ")[0]}, por nos avisar. Sentiremos sua falta!`
       );
       form.reset();
     };
