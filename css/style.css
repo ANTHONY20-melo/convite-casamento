@@ -699,6 +699,85 @@ body.livro-alto {
   color: var(--cor-tinta-suave);
 }
 
+/* ---------- lista de presentes ---------- */
+
+.lista-presentes {
+  display: grid;
+  gap: 0.85rem;
+  /* índice longo: rolagem própria para a página do livro manter as proporções */
+  max-height: 38vh;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--cor-dourado-claro) transparent;
+}
+
+.lista-presentes::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lista-presentes::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lista-presentes::-webkit-scrollbar-thumb {
+  background: var(--cor-dourado-claro);
+  border-radius: 999px;
+}
+
+.lista-presentes__secao {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.lista-presentes__cabecalho {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--cor-dourado-claro);
+}
+
+.lista-presentes__titulo {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--cor-tinta);
+}
+
+.lista-presentes__contagem {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cor-tinta-suave);
+  white-space: nowrap;
+}
+
+.lista-presentes__itens {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.15rem 0.75rem;
+}
+
+.lista-presentes__item {
+  position: relative;
+  padding-left: 0.85rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--cor-tinta-suave);
+}
+
+.lista-presentes__item::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 0.6rem;
+  color: var(--cor-dourado);
+}
+
 /* ---------- RSVP ---------- */
 
 .rsvp {
@@ -778,6 +857,14 @@ body.livro-alto {
   justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
+  /* quando o livro é mais alto que a tela, a navegação fica fixa no rodapé
+     da tela: as setas continuam ao alcance sem rolar até o fim do livro */
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  padding: 0.35rem 0;
+  background: rgba(253, 251, 250, 0.94);
+  border-radius: 999px;
 }
 
 .livro__seta {
@@ -889,6 +976,14 @@ body.livro-alto {
 
   .envelope {
     width: min(12rem, 62%);
+  }
+
+  .lista-presentes {
+    max-height: 34vh;
+  }
+
+  .lista-presentes__itens {
+    grid-template-columns: 1fr;
   }
 
   .envelope__selo {

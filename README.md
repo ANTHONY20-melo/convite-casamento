@@ -1,15 +1,17 @@
 # Convite de Casamento — Livro
 
-Convite digital de casamento em formato de **livro de 6 páginas**: introdução
+Convite digital de casamento em formato de **livro de 7 páginas**: introdução
 (envelope com selo dourado), capa com os nomes, história + contagem,
-cerimônia/recepção, dress code/presentes e a página final de **confirmação de
-presença**. Sem build, sem dependências — abrir o `index.html` já funciona.
+cerimônia/recepção, dress code, **lista de presentes** e a página final de
+**confirmação de presença**. Sem build, sem dependências — abrir o
+`index.html` já funciona.
 
 Navegação: botões `‹ ›`, teclado (`←` `→`, `PageUp/Down`) e os botões
-"Abrir o envelope" (introdução → capa), "Abrir o convite" (capa → história) e
-"Confirmar presença". A virada é 3D de verdade: a folha sai da lombada para a
-esquerda ao avançar e volta girando ao recuar — com `prefers-reduced-motion` a
-troca é instantânea.
+"Abrir o envelope" (introdução → capa), "Abrir o convite" (capa → história),
+"Ver a lista de presentes" e "Confirmar presença". A virada é 3D de verdade: a
+folha sai da lombada para a esquerda ao avançar e volta girando ao recuar — com
+`prefers-reduced-motion` a troca é instantânea. Quando o livro é mais alto que
+a tela, a navegação fica fixa no rodapé para as setas continuarem ao alcance.
 
 ## Como editar os dados do casal
 
@@ -17,18 +19,19 @@ Abra **`js/main.js`** e edite o bloco `CONFIG` no topo:
 
 ```js
 const CONFIG = {
-  nomes: "Cecília & Rafael",
-  dataExtenso: "Domingo, 15 de agosto de 2027",
+  nomes: "Anthony & Elisa",
+  dataExtenso: "Sábado, 12 de dezembro de 2026",
   horaCerimonia: "19h00",
-  dataEvento: "2027-08-15T19:00:00", // contagem regressiva
+  horaRecepcao: "20h30",
+  dataEvento: "2026-12-12T19:00:00", // contagem regressiva
   historia: "…",
   // locais + links de mapa:
   localCerimonia / enderecoCerimonia / linkCerimonia,
   localRecepcao / enderecoRecepcao / linkRecepcao,
-  linkListaPresentes: "https://...",
+  linkListaPresentes: "https://meu-enxoval-web.vercel.app/anthony-e-noiva",
   linkPlanilha: "https://script.google.com/.../exec", // planilha de confirmados
   emailRsvp / whatsappRsvp, // fallbacks enquanto a planilha não está no ar
-  prazoRsvpTexto: "15 de julho de 2027",
+  prazoRsvpTexto: "12 de novembro de 2026",
 };
 ```
 
@@ -69,13 +72,31 @@ Abra `planilha-confirmados.xlsx` e anote (ou cole) as confirmações. Para
 importação em lote, use `modelo-planilha-confirmados.csv`
 (Dados → De Texto/CSV).
 
+## Lista de presentes
+
+A página "Lista de presentes" do livro mostra os **91 itens do enxoval**
+(Cozinha 52, Sala 8, Quarto 19, Lavanderia 12). Os dados ficam em
+**`js/lista-presentes.js`** — edite esse arquivo para trocar itens, nomes de
+categoria ou os ícones, sem mexer em mais nada.
+
+A **reserva** acontece na página pública do enxoval
+(<https://meu-enxoval-web.vercel.app/anthony-e-noiva>): o convidado toca no
+item, escreve o nome e o item fica marcado como reservado (um convidado por
+item). O botão "Reservar na lista completa" leva exatamente para lá — por isso
+`CONFIG.linkListaPresentes` deve apontar para a URL pública do casal.
+
+Para trocar a lista por outra, aponte `CONFIG.linkListaPresentes` para a nova
+URL e gere `js/lista-presentes.js` com os itens novos (mesmo formato:
+`{ icone, titulo, itens: [...] }`).
+
 ## Estrutura
 
 ```
 convite-casamento/
-├── index.html                      # livro: 6 páginas + navegação
+├── index.html                      # livro: 7 páginas + navegação
 ├── css/style.css                   # estilo, virada 3D de página
 ├── js/main.js                      # CONFIG + navegação + contagem + RSVP
+├── js/lista-presentes.js           # itens do enxoval exibidos no livro
 ├── server.js                       # (Node puro) site + RSVP → .xlsx local
 ├── start.bat                       # atalho: node server.js
 ├── confirmados.json                # acervo das confirmações (dados brutos)

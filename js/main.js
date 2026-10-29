@@ -6,11 +6,11 @@
 
 const CONFIG = {
   // --- ESSENCIAIS ----------------------------------------------------------
-  nomes: "Nome do Noivo & Nome da Noiva", // ex.: "Cecília & Rafael"
-  dataExtenso: "Domingo, 15 de agosto de 2027",
+  nomes: "Anthony & Elisa", // ex.: "Cecília & Rafael"
+  dataExtenso: "Sábado, 12 de dezembro de 2026",
   horaCerimonia: "19h00",
   horaRecepcao: "20h30",
-  dataEvento: "2027-08-15T19:00:00", // contagem regressiva (AAAA-MM-DDTHH:MM:SS)
+  dataEvento: "2026-12-12T19:00:00", // contagem regressiva (AAAA-MM-DDTHH:MM:SS)
 
   // --- HISTÓRIA (página "Nossa história") ----------------------------------
   historia:
@@ -28,10 +28,12 @@ const CONFIG = {
   notaPresenca: "Sua presença é nosso presente maior. Conte com você!",
 
   // --- EXTRAS --------------------------------------------------------------
-  linkListaPresentes: "https://site-da-lista.com",
+  // Lista pública de presentes (enxoval) — o convidado escolhe o item e
+  // escreve o nome para reservá-lo:
+  linkListaPresentes: "https://meu-enxoval-web.vercel.app/anthony-e-noiva",
 
   // Prazo do RSVP (chave única — usada em "Presentes" e no rodapé do formulário)
-  prazoRsvpTexto: "15 de julho de 2027",
+  prazoRsvpTexto: "12 de novembro de 2026",
 
   // --- PLANILHA DE CONFIRMADOS (formato Excel/Sheets) -----------------------
   // 1) Crie uma planilha no Google Sheets;
@@ -43,7 +45,7 @@ const CONFIG = {
 
   // --- FALLBACKS caso a planilha não esteja configurada ----------------------
   // Escolha UM dos dois:
-  emailRsvp: "noivos@email.com",
+  emailRsvp: "anthonybelmon6@gmail.com",
   whatsappRsvp: "", // formato: 5511999999999 (DDD + número)
 
   // Ordem de envio do RSVP (definida em js/main.js, não aqui):
@@ -111,6 +113,50 @@ const CONFIG = {
   }
 
   document.title = `Convite de Casamento — ${CONFIG.nomes}`;
+
+  // ---------- 1.1 Lista de presentes (dados em js/lista-presentes.js) ------
+  const containerLista = document.getElementById("lista-presentes");
+  if (
+    containerLista &&
+    typeof LISTA_PRESENTES !== "undefined" &&
+    Array.isArray(LISTA_PRESENTES)
+  ) {
+    const total = LISTA_PRESENTES.reduce((t, s) => t + s.itens.length, 0);
+    const frag = document.createDocumentFragment();
+
+    for (const secao of LISTA_PRESENTES) {
+      const bloco = document.createElement("section");
+      bloco.className = "lista-presentes__secao";
+
+      const cabecalho = document.createElement("div");
+      cabecalho.className = "lista-presentes__cabecalho";
+
+      const titulo = document.createElement("h3");
+      titulo.className = "lista-presentes__titulo";
+      titulo.textContent = `${secao.icone} ${secao.titulo}`;
+
+      const contagem = document.createElement("span");
+      contagem.className = "lista-presentes__contagem";
+      contagem.textContent = `${secao.itens.length} ${secao.itens.length === 1 ? "item" : "itens"}`;
+
+      cabecalho.append(titulo, contagem);
+
+      const lista = document.createElement("ul");
+      lista.className = "lista-presentes__itens";
+      for (const item of secao.itens) {
+        const li = document.createElement("li");
+        li.className = "lista-presentes__item";
+        li.textContent = item;
+        lista.append(li);
+      }
+
+      bloco.append(cabecalho, lista);
+      frag.append(bloco);
+    }
+
+    containerLista.replaceChildren(frag);
+    containerLista.setAttribute("aria-label", `Lista de presentes: ${total} itens`);
+  }
 
   // ---------- 2. Inicialização do livro -----------------------------------
   const paginas = [...document.querySelectorAll(".pagina")];

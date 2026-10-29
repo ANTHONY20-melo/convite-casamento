@@ -197,19 +197,14 @@
 
           <article class="bloco">
             <h2 class="titulo-bloco">Presentes</h2>
-            <p class="destaque-gold">Sugestão de lista</p>
+            <p class="destaque-gold">Lista de enxoval</p>
             <p class="texto-pagina">
-              Pensamos em tudo com carinho, mas se quiser nos presentear, temos
-              uma lista disponível.
+              Preparamos uma lista com o que ainda falta para o nosso lar. Escolha
+              um item e escreva seu nome para reservá-lo.
             </p>
-            <a
-              class="button button--ghost"
-              data-config-link="linkListaPresentes"
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              >Lista de presentes</a
-            >
+            <button type="button" class="button button--ghost" data-virar="5">
+              Ver a lista de presentes
+            </button>
           </article>
 
           <article class="bloco">
@@ -217,15 +212,45 @@
             <p class="texto-pagina" data-config="prazoRsvp">
               Por favor, confirme até <strong>15 de julho de 2027</strong>.
             </p>
-            <button type="button" class="button button--solid button--wide" data-virar="5">
+            <button type="button" class="button button--solid button--wide" data-virar="6">
               Confirmar presença &#129293;
             </button>
           </article>
         </div>
       </section>
 
-      <!-- ============ PÁGINA 6 — RSVP (LISTA DE CONFIRMAÇÃO) ============ -->
-      <section class="pagina" data-pagina="5" aria-label="Confirmação de presença" inert>
+      <!-- ============ PÁGINA 6 — LISTA DE PRESENTES ============ -->
+      <section class="pagina" data-pagina="5" aria-label="Lista de presentes" inert>
+        <div class="pagina__inner">
+          <p class="kicker">Para o nosso lar</p>
+          <h2 class="titulo-secao">Lista de presentes</h2>
+          <p class="texto-pagina">
+            Escolha um item da lista abaixo e reserve o seu. Cada presente pode ser
+            reservado por uma única pessoa — e o seu nome fica registrado com o
+            casal.
+          </p>
+
+          <div class="lista-presentes" id="lista-presentes" role="list">
+            <!-- preenchido por js/main.js a partir de js/lista-presentes.js -->
+          </div>
+
+          <a
+            class="button button--solid button--wide"
+            data-config-link="linkListaPresentes"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Reservar na lista completa &#129293;</a
+          >
+
+          <button type="button" class="button button--ghost button--wide" data-virar="6">
+            Confirmar presença
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ PÁGINA 7 — RSVP (LISTA DE CONFIRMAÇÃO) ============ -->
+      <section class="pagina" data-pagina="6" aria-label="Confirmação de presença" inert>
         <div class="pagina__inner">
           <p class="kicker">Assine nossa lista</p>
           <h2 class="titulo-secao">Confirmar presença</h2>
@@ -289,13 +314,14 @@
       >
         &#8249;
       </button>
-      <span class="livro__paginacao" id="paginacao" aria-live="polite">Página 1 de 6</span>
+      <span class="livro__paginacao" id="paginacao" aria-live="polite">Página 1 de 7</span>
       <button type="button" class="livro__seta" id="btn-proximo" aria-label="Próxima página">
         &#8250;
       </button>
     </nav>
   </main>
 
+  <script src="js/lista-presentes.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
