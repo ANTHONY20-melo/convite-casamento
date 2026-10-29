@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convite de Casamento — Nome do Noivo & Nome da Noiva</title>
   <meta name="description" content="Você está convidado para celebrar nosso casamento. Vire as páginas e confirme sua presença." />
+  <meta name="theme-color" content="#fdfbfa" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Convite de Casamento" />
+  <meta property="og:title" content="Convite de Casamento — Nome do Noivo & Nome da Noiva" />
+  <meta property="og:description" content="Você está convidado para celebrar nosso casamento. Vire as páginas e confirme sua presença." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1519446229885-cee3a8405f3e?w=1200&h=630&fit=crop" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Convite de Casamento — Nome do Noivo & Nome da Noiva" />
+  <meta name="twitter:description" content="Você está convidado para celebrar nosso casamento. Vire as páginas e confirme sua presença." />
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1519446229885-cee3a8405f3e?w=1200&h=630&fit=crop" />
+
+  <!-- canonical: ajuste o domínio final antes de publicar -->
+  <link rel="canonical" href="https://exemplo.com/convite-casamento/" />
+
   <link
     rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🤍</text></svg>"
@@ -19,42 +36,76 @@
 </head>
 <body>
   <main class="estante">
-    <div class="livro" id="livro" aria-live="polite">
-      <!-- ============ PÁGINA 1 — CAPA / INTRODUCTION ============ -->
+    <div class="livro" id="livro">
+      <!-- ============ PÁGINA 1 — INTRODUÇÃO (primeira tela) ============ -->
       <section
-        class="pagina pagina--capa ativa"
+        class="pagina pagina--intro ativa"
         data-pagina="0"
-        aria-label="Capa do convite"
+        aria-label="Introdução ao convite"
       >
-        <div class="pagina__inner">
-          <div class="capa__container">
-            <img 
-              src="https://images.unsplash.com/photo-1519446229885-cee3a8405f3e?w=800&h=1000&fit=crop&face=auto" 
-              alt="Fotos dos noivos"
-              class="capa__foto"
-              loading="lazy"
-            />
-            <div class="capa__overlay">
-              <p class="meia-coluna eyebrow">Com a bênção de Deus<br />e de nossos pais</p>
-              <p class="lead">Temos a honra de convidar você para o casamento de</p>
-              <h1 class="nomes" data-config="nomes">Nome do Noivo & Nome da Noiva</h1>
-            </div>
+        <div class="pagina__inner intro__inner">
+          <div class="envelope" aria-hidden="true">
+            <span class="envelope__selo">&#10086;</span>
           </div>
-          <button type="button" class="button button--solid capa-btn-abrir" data-virar="1">
-            Iniciar leitura 🤍
+          <p class="kicker">Você recebeu um convite</p>
+          <h1 class="titulo-secao">Uma história que começou<br />com uma tarde</h1>
+          <p class="lead" data-config="nomes">Nome do Noivo & Nome da Noiva</p>
+          <p class="texto-pagina intro__texto">
+            Neste pequeno livro você vai conhecer a nossa história, os detalhes da
+            cerimônia e da recepção — e, na última página, confirmar a sua presença.
+          </p>
+          <p class="intro__data" data-config="dataExtenso"></p>
+          <button type="button" class="button button--solid intro-btn-abrir" data-virar="1">
+            Abrir o envelope &#129293;
           </button>
         </div>
       </section>
 
-      <!-- ============ PÁGINA 2 — NOSSA HISTÓRIA + CONTAGEM ============ -->
-      <section class="pagina" data-pagina="1" aria-label="Nossa história">
+      <!-- ============ PÁGINA 2 — CAPA ============ -->
+      <section
+        class="pagina pagina--capa"
+        data-pagina="1"
+        aria-label="Capa do convite"
+        inert
+      >
+        <div class="pagina__inner capa__inner">
+          <div class="capa__container">
+            <img
+              src="https://images.unsplash.com/photo-1519446229885-cee3a8405f3e?w=800&h=1000&fit=crop&face=auto"
+              alt="Fotos dos noivos"
+              class="capa__foto"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              width="800"
+              height="1000"
+            />
+            <div class="capa__overlay">
+              <p class="meia-coluna eyebrow">Com a bênção de Deus<br />e de nossos pais</p>
+              <p class="lead">Temos a honra de convidar você para o casamento de</p>
+              <h2 class="nomes" data-config="nomes">Nome do Noivo & Nome da Noiva</h2>
+              <p class="capa__data" data-config="dataExtenso"></p>
+            </div>
+          </div>
+          <p class="capa__aviso" id="capa-aviso" role="status" hidden>
+            Não foi possível carregar a foto do casal agora. O restante do convite
+            está intacto — siga adiante para ler tudo.
+          </p>
+          <button type="button" class="button button--solid capa-btn-abrir" data-virar="2">
+            Abrir o convite &#129293;
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ PÁGINA 3 — NOSSA HISTÓRIA + CONTAGEM ============ -->
+      <section class="pagina" data-pagina="2" aria-label="Nossa história" inert>
         <div class="pagina__inner">
           <p class="kicker">Uma vez por dia</p>
           <h2 class="titulo-secao">Nossa história</h2>
           <p class="texto-pagina" data-config="historia">
             Foi numa tarde comum que tudo começou: um encontro, uma conversa que
             não queria terminar e, aos poucos, a certeza de que éramos feitos um
-            para o outro. Desde então, cada dia juntos virou memória — e agora
+            para o outro. Desde então, cada dia junto virou memória — e agora
             queremos começar nossa maior aventura, cercados de quem amamos.
           </p>
           <p class="lead">Faltam</p>
@@ -79,8 +130,8 @@
         </div>
       </section>
 
-      <!-- ============ PÁGINA 3 — CERIMÔNIA & RECEPÇÃO ============ -->
-      <section class="pagina" data-pagina="2" aria-label="Cerimônia e recepção">
+      <!-- ============ PÁGINA 4 — CERIMÔNIA & RECEPÇÃO ============ -->
+      <section class="pagina" data-pagina="3" aria-label="Cerimônia e recepção" inert>
         <div class="pagina__inner">
           <p class="kicker">Nossa união</p>
           <h2 class="titulo-secao">Cerimônia & Recepção</h2>
@@ -112,7 +163,7 @@
               <span class="ornament__diamond"></span>
               <span class="ornament__line"></span>
             </div>
-            <p class="hora">20h30</p>
+            <p class="hora" data-config="horaRecepcao">20h30</p>
             <p class="local" data-config="localRecepcao">Salão Nobre Vista Verde</p>
             <p class="endereco" data-config="enderecoRecepcao">Avenida das Flores, 456 — Jardins</p>
             <a
@@ -131,8 +182,8 @@
         </div>
       </section>
 
-      <!-- ============ PÁGINA 4 — DRESS CODE & PRESENTES ============ -->
-      <section class="pagina" data-pagina="3" aria-label="Dress code e presentes">
+      <!-- ============ PÁGINA 5 — DRESS CODE & PRESENTES ============ -->
+      <section class="pagina" data-pagina="4" aria-label="Dress code e presentes" inert>
         <div class="pagina__inner">
           <article class="bloco">
             <h2 class="titulo-bloco">Dress Code</h2>
@@ -166,15 +217,15 @@
             <p class="texto-pagina" data-config="prazoRsvp">
               Por favor, confirme até <strong>15 de julho de 2027</strong>.
             </p>
-            <button type="button" class="button button--solid button--wide" data-virar="4">
-              Confirmar presença 🤍
+            <button type="button" class="button button--solid button--wide" data-virar="5">
+              Confirmar presença &#129293;
             </button>
           </article>
         </div>
       </section>
 
-      <!-- ============ PÁGINA 5 — RSVP (LISTA DE CONFIRMAÇÃO) ============ -->
-      <section class="pagina" data-pagina="4" aria-label="Confirmação de presença">
+      <!-- ============ PÁGINA 6 — RSVP (LISTA DE CONFIRMAÇÃO) ============ -->
+      <section class="pagina" data-pagina="5" aria-label="Confirmação de presença" inert>
         <div class="pagina__inner">
           <p class="kicker">Assine nossa lista</p>
           <h2 class="titulo-secao">Confirmar presença</h2>
@@ -182,13 +233,21 @@
           <form class="rsvp" id="form-rsvp" novalidate>
             <label class="rsvp__campo">
               <span>Seu nome completo</span>
-              <input type="text" id="rsvp-nome" name="nome" required autocomplete="name" />
+              <input
+                type="text"
+                id="rsvp-nome"
+                name="nome"
+                required
+                autocomplete="name"
+                aria-describedby="rsvp-nome-erro"
+              />
+              <span class="rsvp__erro-campo" id="rsvp-nome-erro" hidden></span>
             </label>
 
             <label class="rsvp__campo">
               <span>Presença</span>
               <select id="rsvp-presenca" name="presenca" required>
-                <option value="Sim">Sim, estarei presente 🎉</option>
+                <option value="Sim">Sim, estarei presente &#127881;</option>
                 <option value="Não">Não poderei comparecer</option>
               </select>
             </label>
@@ -210,8 +269,8 @@
               <textarea id="rsvp-recado" name="recado" rows="3"></textarea>
             </label>
 
-            <button type="submit" class="button button--solid button--wide">
-              Assinar e confirmar 🤍
+            <button type="submit" class="button button--solid button--wide" id="rsvp-enviar">
+              Assinar e confirmar &#129293;
             </button>
             <p class="rsvp__feedback" id="rsvp-feedback" role="status" aria-live="polite"></p>
           </form>
@@ -228,11 +287,11 @@
         aria-label="Página anterior"
         disabled
       >
-        ‹
+        &#8249;
       </button>
-      <span class="livro__paginacao" id="paginacao">Página 1 de 5</span>
+      <span class="livro__paginacao" id="paginacao" aria-live="polite">Página 1 de 6</span>
       <button type="button" class="livro__seta" id="btn-proximo" aria-label="Próxima página">
-        ›
+        &#8250;
       </button>
     </nav>
   </main>

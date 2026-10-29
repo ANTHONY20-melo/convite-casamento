@@ -1,12 +1,15 @@
 # Convite de Casamento — Livro
 
-Convite digital de casamento em formato de **livro**: capa com os nomes, páginas
-que viram em 3D (história + contagem, cerimônia/recepção, dress code/presentes)
-e a página final de **confirmação de presença**. Sem build, sem dependências —
-abrir o `index.html` já funciona.
+Convite digital de casamento em formato de **livro de 6 páginas**: introdução
+(envelope com selo dourado), capa com os nomes, história + contagem,
+cerimônia/recepção, dress code/presentes e a página final de **confirmação de
+presença**. Sem build, sem dependências — abrir o `index.html` já funciona.
 
 Navegação: botões `‹ ›`, teclado (`←` `→`, `PageUp/Down`) e os botões
-"Abrir o convite" / "Confirmar presença".
+"Abrir o envelope" (introdução → capa), "Abrir o convite" (capa → história) e
+"Confirmar presença". A virada é 3D de verdade: a folha sai da lombada para a
+esquerda ao avançar e volta girando ao recuar — com `prefers-reduced-motion` a
+troca é instantânea.
 
 ## Como editar os dados do casal
 
@@ -31,6 +34,11 @@ const CONFIG = {
 
 Nome, data, história, locais, links de mapa, lista de presentes e o destino das
 confirmações são atualizados automaticamente no livro.
+
+**Ordem de envio do RSVP:** `POST /rsvp` (servidor local do `server.js`, grava
+no Excel) → `linkPlanilha` (Google Sheets) → `whatsappRsvp` → `emailRsvp`.
+Em hospedagem estática (Vercel, GitHub Pages) o `/rsvp` não existe: o site
+detecta isso e segue a cadeia em silêncio, sem mostrar erro ao visitante.
 
 ## Planilha de confirmados (Excel)
 
@@ -65,7 +73,7 @@ importação em lote, use `modelo-planilha-confirmados.csv`
 
 ```
 convite-casamento/
-├── index.html                      # livro: 5 páginas + navegação
+├── index.html                      # livro: 6 páginas + navegação
 ├── css/style.css                   # estilo, virada 3D de página
 ├── js/main.js                      # CONFIG + navegação + contagem + RSVP
 ├── server.js                       # (Node puro) site + RSVP → .xlsx local
@@ -95,7 +103,11 @@ arraste a pasta e publique. Nenhum servidor é necessário.
 
 ## Acessibilidade
 
-- Contraste garantido entre tinta e papel; navegação completa por teclado;
+- Contraste garantido entre tinta e papel (AA também dentro dos blocos);
+- Navegação completa por teclado; foco visível em botões e campos;
+- Alvos de toque de no mínimo 44×44px nas telas pequenas;
 - Formulário com labels associados e feedback por `aria-live`;
 - Animação de virada desativada em `prefers-reduced-motion`;
-- Foco visível em botões e campos.
+- Páginas com conteúdo longo nunca são cortadas: em telas que não comportam
+  o livro inteiro, o livro cresce e a própria página do documento rola;
+- A foto da capa, se não carregar, mostra um aviso honesto em vez de quebrar.
