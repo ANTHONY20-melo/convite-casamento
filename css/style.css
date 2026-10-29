@@ -701,6 +701,25 @@ body.livro-alto {
 
 /* ---------- lista de presentes ---------- */
 
+.nota-pagina {
+  font-size: 0.78rem;
+  font-style: italic;
+  text-align: center;
+  color: var(--cor-tinta-suave);
+  opacity: 0.85;
+}
+
+.botoes-lado-a-lado {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+.botoes-lado-a-lado .button {
+  flex: 1 1 10rem;
+}
+
 .lista-presentes {
   display: grid;
   gap: 0.85rem;
